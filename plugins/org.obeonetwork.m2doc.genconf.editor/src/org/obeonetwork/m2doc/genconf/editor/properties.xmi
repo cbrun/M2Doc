@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eef:EEFViewDescription
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:eef="http://www.eclipse.org/eef"
+    xsi:schemaLocation="http://www.eclipse.org/eef/ext/widgets/reference ../../../../../../../org.eclipse.eef.ext.widgets.reference/model/eef-ext-widgets-reference.ecore"
+    labelExpression="'M2Doc genconf'"
+    imageExpression="">
+  <groups identifier="paths"
+      labelExpression="'File paths'"
+      domainClass=""
+      preconditionExpression="self.oclIsKindOf(genconf::Generation)">
+    <controls
+        xsi:type="eef:EEFTextDescription"
+        labelExpression="'Template File Name'"
+        helpExpression="'Some help...'"
+        valueExpression="self.templateFileName"
+        editExpression="self.performSetCommand('templateFileName',newValue)"/>
+    <controls
+        xsi:type="eef:EEFTextDescription"
+        labelExpression="'Result File Name'"
+        helpExpression="'Some help...'"
+        valueExpression="self.resultFileName"
+        editExpression="self.performSetCommand('resultFileName',newValue)"/>
+    <style barStyle="SHORT_TITLE_BAR"
+        toggleStyle="TREE_NODE"
+        expandedByDefault="true"/>
+  </groups>
+  <groups identifier="representations"
+      labelExpression="'Representations'"
+      preconditionExpression="self.eClass().name = 'Generation'">
+    <controls
+        xsi:type="eef:EEFCheckboxDescription"
+        labelExpression="'refresh representation when generating'"
+        isEnabledExpression=""
+        valueExpression="self.refreshRepresentations"
+        editExpression="self.performSetCommand('refreshRepresentations',newValue)"/>
+  </groups>
+  <groups identifier="parameters"
+      labelExpression="'Parameters'"
+      domainClass=""
+      preconditionExpression="true">
+    <controls
+        xsi:type="eef:EEFDynamicMappingFor"
+        iterator="def"
+        iterableExpression="self.definitions">
+      <ifs predicateExpression="def.oclIsKindOf(genconf::StringDefinition)">
+        <widget
+            xsi:type="eef:EEFTextDescription"
+            labelExpression="def.key"
+            isEnabledExpression=""
+            valueExpression="def.value"
+            editExpression="def.performSetCommand('value',newValue)"/>
+      </ifs>
+      <ifs predicateExpression="def.oclIsKindOf(genconf::ModelDefinition)">
+        <widget
+            xsi:type="eef-ext-widgets-reference:EEFExtReferenceDescription"
+            labelExpression="def.key"/>
+      </ifs>
+      <ifs predicateExpression="def.oclIsKindOf(genconf::ModelDefinition)"/>
+    </controls>
+  </groups>
+  <groups identifier="header"
+      labelExpression=""
+      domainClass=""
+      preconditionExpression="self.oclIsKindOf(genconf::Generation)">
+    <controls
+        xsi:type="eef:EEFContainerDescription">
+      <controls
+          xsi:type="eef:EEFLabelDescription"
+          labelExpression="'You can set the generation settings through this form.'"/>
+      <controls
+          xsi:type="eef:EEFButtonDescription"
+          buttonLabelExpression="'Generate'"/>
+      <layout
+          xsi:type="eef:EEFFillLayoutDescription"
+          orientation="HORIZONTAL"/>
+    </controls>
+    <style barStyle="NO_TITLE"
+        toggleStyle="NONE"
+        expandedByDefault="true"/>
+  </groups>
+  <pages identifier="general"
+      labelExpression="''"
+      preconditionExpression="true"
+      groups="//@groups.3 //@groups.0 //@groups.2"/>
+  <pages identifier="representation"
+      labelExpression="''"
+      preconditionExpression="false"
+      groups="//@groups.1"/>
+</eef:EEFViewDescription>
